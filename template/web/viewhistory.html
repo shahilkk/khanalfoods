@@ -1,0 +1,89 @@
+
+{% extends 'web/partials/base.html' %}
+{% block content %}
+{% load static %}
+
+   <div class="content container-fluid">
+
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">View History</h3>
+                <ul class="breadcrumb">
+                    <li class=""><a href="index-2.html">Dashboard</a>
+                    </li>
+                    <li class=" active">View History</li>
+                </ul>
+            </div>
+           
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-center table-hover datatable">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>price</th>
+                                    <th>Added Date</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in viewhistory %}
+                                <tr>
+                                    <td>
+                                        <h2 class="table-avatar">
+                                           
+                                            {{i.customer.name}}
+                                        </h2>
+                                    </td>
+                                    <td>{{i.customer.email}}</td>
+                                    <td>{{i.customer.phone}}</td>
+                                    <td>{{i.price}}</td>
+                                    <td>{{i.addeddate}}</td>
+                                    
+                                </tr>
+                               {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="comp-section comp-cards">
+        <div class="section-header">
+            <h3 class="section-title">Currently Highest Bid</h3>
+            <div class="line"></div>
+        </div>
+        <div class="row">
+
+            <div class="col-12 col-md-6 col-lg-4 d-flex">
+                <div class="card flex-fill bg-white">
+                  
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">{{finalresult.customer.name}}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Price :-{{finalresult.price}}</p>
+                        <p class="card-text">Date:-{{finalresult.addeddate}}</p>
+                        <p class="card-text">Date:-{{finalresult.addeddate}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+{% endblock %}

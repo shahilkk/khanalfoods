@@ -1,0 +1,63 @@
+{% extends 'customer/partials/base.html' %}
+{% block content %}
+{% load static %}
+<div class="content container-fluid">
+
+    <div class="page-header">
+        <div class="row">
+            <div class="col">
+                <h3 class="page-title">Components</h3>
+                <ul class="breadcrumb">
+                    <li class=""><a href="index-2.html"> Dashboard</a></li>
+                    <li class=" active"> > Components</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="comp-sec-wrapper">
+
+
+
+
+        <section class="comp-section comp-cards">
+            <div class="section-header">
+                <h3 class="section-title">Cards</h3>
+                <div class="line"></div>
+            </div>
+            <div class="row">
+
+                {% for i in product %}
+                <div class="col-12 col-md-6 col-lg-4 d-flex">
+                    <div class="card flex-fill bg-white">
+                        <img alt="Card Image" src="{{i.image.url}}" class="card-img-top">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">{{i.name}}</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Price :-{{i.price}}</p>
+                            <p class="card-text"> Statring Date:-{{i.startingdate}}</p>
+                            <p class="card-text"> Ending Date :- {{i.endingdate}}</p>
+                            <a class="btn btn-primary" href="{% url 'customer:viewproduct' i.id %}">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </section>
+
+      
+
+
+
+
+
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+

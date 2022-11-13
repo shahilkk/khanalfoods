@@ -1,0 +1,61 @@
+
+{% extends 'web/partials/base.html' %}
+{% block content %}
+{% load static %}
+
+   <div class="content container-fluid">
+
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h3 class="page-title">Customers</h3>
+                <ul class="breadcrumb">
+                    <li class=""><a href="index-2.html">Dashboard</a>
+                    </li>
+                    <li class=" active">Customers</li>
+                </ul>
+            </div>
+           
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-center table-hover datatable">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in customerlist %}
+                                <tr>
+                                    <td>
+                                        <h2 class="table-avatar">
+                                           
+                                            {{i.name}}
+                                        </h2>
+                                    </td>
+                                    <td>{{i.email}}</td>
+                                    <td>{{i.phone}}</td>
+                                    
+                                </tr>
+                               {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

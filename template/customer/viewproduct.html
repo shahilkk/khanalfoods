@@ -1,0 +1,192 @@
+{% extends 'customer/partials/base.html' %}
+{% block content %}
+{% load static %}
+<div class="content container-fluid">
+    <div class="row justify-content-lg-center">
+        <div class="col-lg-10">
+
+            <div class="page-header">
+                <div class="row">
+                    <div class="col">
+                        <h3 class="page-title">Profile</h3>
+                        <ul class="breadcrumb">
+                            <li class=""><a href="">Dashboard</a></li>
+                            <li class=" active">View Product </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-cover">
+                <div class="profile-cover-wrap">
+                    <img class="profile-cover-img" src="{{productdetails.image.url}}" alt="Profile Cover">
+
+                    <!-- <div class="cover-content">
+                        <div class="custom-file-btn">
+                            <input type="file" class="custom-file-btn-input" id="cover_upload">
+                            <label class="custom-file-btn-label btn btn-sm btn-white" for="cover_upload">
+                                <i class="fas fa-camera"></i>
+                                <span class="d-none d-sm-inline-block ms-1">Update Cover</span>
+                            </label>
+                        </div>
+                    </div> -->
+
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 20px;">
+                <div class="col-lg-4">
+                    <div class="card card-body">
+                        <h5>Countdown</h5>
+
+                        <div class="card-body">
+                            <h5 class=" text-center">
+                                <b> day : hr : min : sec</b>
+                            </h5>
+                            <h5 class="text-center">
+                                <span id="timer-countdown"></span>
+                            </h5>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Update</h5>
+                        </div>
+
+                        <div class="card-body">
+                            <h4 class="card-title">Basic Info</h4>
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Product Name</label>
+                                            <input type="text"  disabled value="{{productdetails.name}}"
+                                                class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Bid Price</label>
+                                            <input type="text" onchange="PriceChange()" name="applyprice" id="applyprice" class="form-control">
+                                            <input type="hidden" name="productid" id="productid" value="{{productdetails.id}}">
+                                            <p id="msg"></p>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label> Current Price</label>
+                                            <input type="text" id="currentprice" readonly value="{{productdetails.price}}"
+                                                class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" id="datevalue" value="{{productdetails.endingdate}}"
+                                                class="form-control">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <button class="btn btn-lg btn-block btn-primary w-100" type="submit">Submit</button>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="timeout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Finish The Exam</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">Time Out</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a href="" class="btn btn-primary">Finish Exam</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'web/plugins/countup/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'web/plugins/countup/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'web/plugins/countup/jquery.missofis-countdown.js' %}"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
+<script>
+    var date = new Date();
+    today = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
+    var datevalue = $('#datevalue').val()
+
+    var date = new Date(datevalue);
+    endingdate = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
+    // alert(today)
+    // alert(endingdate)
+    $(document).ready(function () {
+        const date1 = new Date(today);
+        const date2 = new Date(endingdate);
+        const diffTime = Math.abs(date2 - date1);
+        // alert(diffTime)
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        // console.log(diffTime + " milliseconds");
+        // console.log(diffDays + " days");
+        // alert(diffDays* 86400)
+        if ($('#timer-countdown').length > 0) {
+            $('#timer-countdown').countdown({
+
+                from: diffDays * 86400, // 3 minutes (3*60)
+                to: 0, // stop at zero
+                movingUnit: 1000, // 1000 for 1 second increment/decrements
+                timerEnd: undefined,
+                outputPattern: '$day: $hour : $minute : $second',
+                autostart: true,
+                timerEnd: function () {
+                    $("#timeout").modal('show')
+                    var productid = $('#productid').val()
+                    setTimeout(function () {
+                        window.location.href = "/customer/timeout/"+productid
+                    }, 2500);
+                }
+            });
+
+
+          
+        }
+     
+    })
+
+
+    function PriceChange() {
+        var applyprice = $('#applyprice').val();
+        var currentprice =$('#currentprice').val();
+
+        if (applyprice > currentprice) {
+             $('#msg').html('')
+            // alert("Sorry, you don't have enough points");
+            return false;
+        }
+        else{
+            $('#msg').html('Value must be grater that current Value');
+            $('#applyprice').val('');
+        }
+    }
+
+</script>
+
+
+{% endblock %}
